@@ -1,0 +1,6 @@
+# Project exclude paths
+/iMedia-common/target/
+/iMedia-model/target/
+/iMedia-service-api/target/
+/iMedia-service-user/target/
+/mybatis-generator-database/target/
