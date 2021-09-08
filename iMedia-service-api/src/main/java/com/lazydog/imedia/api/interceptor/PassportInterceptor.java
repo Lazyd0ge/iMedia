@@ -1,5 +1,7 @@
 package com.lazydog.imedia.api.interceptor;
 
+import com.lazydog.exception.GraceException;
+import com.lazydog.result.ResponseStatusEnum;
 import com.lazydog.utils.IPUtil;
 import com.lazydog.utils.RedisOperator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         String IP = IPUtil.getRequestIp(request);
         boolean keyIsExist = redis.keyIsExist("mobile:smscode" + ":" + IP);
         if (keyIsExist){
-            System.out.println("短信发送太多次了~~~");
+            GraceException.display(ResponseStatusEnum.SMS_NEED_WAIT_ERROR);
             return false;
         }
         return true;
