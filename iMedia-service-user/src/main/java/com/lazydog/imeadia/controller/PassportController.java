@@ -1,12 +1,16 @@
 package com.lazydog.imeadia.controller;
 
 import com.lazydog.bo.RegistryLoginBo;
+import com.lazydog.enums.UserStatus;
+import com.lazydog.imeadia.service.UserService;
 import com.lazydog.imedia.api.controller.user.BaseController;
 import com.lazydog.imedia.api.controller.user.PassportControllerApi;
+import com.lazydog.pojo.AppUser;
 import com.lazydog.result.GraceJSONResult;
 import com.lazydog.result.JSONResult;
 import com.lazydog.result.ResponseStatusEnum;
 import com.lazydog.utils.IPUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -22,7 +26,8 @@ import java.util.Map;
 @RequestMapping("/passport")
 public class PassportController extends BaseController implements PassportControllerApi {
 
-
+    @Autowired
+    UserService userService;
     @Override
     public JSONResult getSMSCode(String mobile, HttpServletRequest request) {
         String userIP= IPUtil.getRequestIp(request);
@@ -50,7 +55,13 @@ public class PassportController extends BaseController implements PassportContro
         if (StringUtils.isEmpty(redisSMScode)||redisSMScode.equals(smsCode)==false){
             return GraceJSONResult.errorCustom(ResponseStatusEnum.SMS_CODE_ERROR);
         }
-        return GraceJSONResult.ok();
+        AppUser user = userService.queryMobileIsExist(mobile);
+        if (user!=null&&user.getActiveStatus()== UserStatus.FROZEN.type){
+            return GraceJSONResult.errorCustom(ResponseStatusEnum.USER_FROZEN);
+        }else if (user==null){
+            user = userService.createUser(mobile);
+        }
+        return GraceJSONResult.ok(user);
     }
 
 
