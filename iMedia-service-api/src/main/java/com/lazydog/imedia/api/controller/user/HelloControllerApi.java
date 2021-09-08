@@ -9,4 +9,6 @@ public interface HelloControllerApi {
     String hello();
     @GetMapping("/result")
     JSONResult result();
+    @GetMapping("/all")
+    JSONResult all();
 }
