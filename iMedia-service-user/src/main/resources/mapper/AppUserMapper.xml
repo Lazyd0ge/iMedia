@@ -21,4 +21,7 @@
     <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
     <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <select id="findAnything" resultType="com.lazydog.pojo.AppUser">
+    select * from app_user
+  </select>
 </mapper>

@@ -11,4 +11,5 @@ public interface HelloControllerApi {
     JSONResult result();
     @GetMapping("/all")
     JSONResult all();
+
 }
