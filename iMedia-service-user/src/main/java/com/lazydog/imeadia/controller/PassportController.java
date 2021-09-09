@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -73,6 +74,19 @@ public class PassportController extends BaseController implements PassportContro
         }
 //        redis.del(MOBILE_SMSCODE + ":" + mobile);
         return GraceJSONResult.ok(activeStatus);
+    }
+
+    @PostMapping("/logout")
+    public GraceJSONResult logout(@RequestParam String userId,
+                                  HttpServletRequest request,
+                                  HttpServletResponse response) {
+
+        redis.del(REDIS_USER_TOKEN + ":" + userId);
+
+        setCookie(request, response, "token", "", 0);
+        setCookie(request, response, "uid", "", 0);
+
+        return GraceJSONResult.ok();
     }
 
 
