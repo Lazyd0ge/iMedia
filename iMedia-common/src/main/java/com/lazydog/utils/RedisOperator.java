@@ -117,7 +117,7 @@ public class RedisOperator {
 	 * @param value
 	 */
 	public void setnx60s(String key, String value) {
-		redisTemplate.opsForValue().setIfAbsent(key, value, 60, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().setIfAbsent(key, value, 6, TimeUnit.SECONDS);
 	}
 
 	/**

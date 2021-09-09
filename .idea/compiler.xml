@@ -6,10 +6,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="iMedia-service-api" />
-        <module name="iMedia-model" />
         <module name="mybatis-generator-database" />
+        <module name="iMedia-service-api" />
         <module name="iMedia-service-user" />
+        <module name="iMedia-model" />
         <module name="iMedia-common" />
       </profile>
     </annotationProcessing>

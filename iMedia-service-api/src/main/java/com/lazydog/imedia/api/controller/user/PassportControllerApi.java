@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 public interface PassportControllerApi {
@@ -16,5 +17,10 @@ public interface PassportControllerApi {
     public JSONResult getSMSCode(String mobile, HttpServletRequest request);
 
     @PostMapping("doLogin")
-    public GraceJSONResult doLogin(@Valid @RequestBody RegistryLoginBo registryLoginBo, BindingResult result);
+    public GraceJSONResult doLogin(@Valid @RequestBody
+                                               RegistryLoginBo
+                                               registryLoginBo,
+                                   BindingResult result,
+                                   HttpServletRequest request,
+                                   HttpServletResponse response);
 }

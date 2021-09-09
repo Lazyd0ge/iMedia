@@ -15,12 +15,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/passport")
@@ -29,7 +32,7 @@ public class PassportController extends BaseController implements PassportContro
     @Autowired
     UserService userService;
     @Override
-    public JSONResult getSMSCode(String mobile, HttpServletRequest request) {
+    public JSONResult getSMSCode(@RequestParam String mobile, HttpServletRequest request) {
         String userIP= IPUtil.getRequestIp(request);
 
         redis.setnx60s(MOBILE_SMSCODE+":"+userIP,userIP);
@@ -44,7 +47,7 @@ public class PassportController extends BaseController implements PassportContro
 
 
     @Override
-    public GraceJSONResult doLogin(RegistryLoginBo registryLoginBo, BindingResult result) {
+    public GraceJSONResult doLogin(RegistryLoginBo registryLoginBo, BindingResult result, HttpServletRequest request,HttpServletResponse response) {
         if (result.hasErrors()){
             Map<String, String> errors = getErrors(result);
             return GraceJSONResult.errorMap(errors);
@@ -61,7 +64,15 @@ public class PassportController extends BaseController implements PassportContro
         }else if (user==null){
             user = userService.createUser(mobile);
         }
-        return GraceJSONResult.ok(user);
+        int activeStatus = user.getActiveStatus();
+        if (activeStatus!=UserStatus.FROZEN.type){
+            String token= UUID.randomUUID().toString();
+            redis.set(REDIS_USER_TOKEN+":"+user.getId(),token);
+            setCookie(request,response,"token",token,60000000);
+            setCookie(request,response,"uid",user.getId(),600000);
+        }
+//        redis.del(MOBILE_SMSCODE + ":" + mobile);
+        return GraceJSONResult.ok(activeStatus);
     }
 
 
