@@ -18,9 +18,23 @@ public class BaseController {
     @Autowired
     public RedisOperator redis;
 
-    public static final String MOBILE_SMSCODE="mobile:smscode";
-    public static final String REDIS_USER_TOKEN="redis_user_token";
 
+
+
+    public static final String MOBILE_SMSCODE = "mobile:smscode";
+    public static final String REDIS_USER_TOKEN = "redis_user_token";
+    public static final String REDIS_USER_INFO = "redis_user_info";
+    public static final String REDIS_ADMIN_TOKEN = "redis_admin_token";
+
+    public static final String REDIS_ALL_CATEGORY = "redis_all_category";
+
+    public static final String REDIS_WRITER_FANS_COUNTS = "redis_writer_fans_counts";
+    public static final String REDIS_MY_FOLLOW_COUNTS = "redis_my_follow_counts";
+
+    public static final String REDIS_ARTICLE_READ_COUNTS = "redis_article_read_counts";
+    public static final String REDIS_ALREADY_READ = "redis_already_read";
+
+    public static final String REDIS_ARTICLE_COMMENT_COUNTS = "redis_article_comment_counts";
 
     public Map<String ,String> getErrors(BindingResult result){
         Map<String ,String> map=new HashMap<>();
