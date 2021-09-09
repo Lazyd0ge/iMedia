@@ -1,10 +1,13 @@
 package com.lazydog.admin.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lazydog.admin.mapper.AdminUserMapper;
 import com.lazydog.bo.NewAdminBO;
 import com.lazydog.exception.GraceException;
 import com.lazydog.pojo.AdminUser;
 import com.lazydog.result.ResponseStatusEnum;
+import com.lazydog.utils.PagedGridResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -56,5 +60,28 @@ public class AdminUserService {
         if (result != 1) {
             GraceException.display(ResponseStatusEnum.ADMIN_CREATE_ERROR);
         }
+    }
+
+
+    public PagedGridResult queryAdminList(Integer page, Integer pageSize) {
+        Example adminExample = new Example(AdminUser.class);
+        adminExample.orderBy("createdTime").desc();
+
+        PageHelper.startPage(page, pageSize);
+        List<AdminUser> adminUserList =
+                adminUserMapper.selectByExample(adminExample);
+
+        return setterPagedGrid(adminUserList, page);
+    }
+
+    private PagedGridResult setterPagedGrid(List<?> adminUserList,
+                                            Integer page) {
+        PageInfo<?> pageList = new PageInfo<>(adminUserList);
+        PagedGridResult gridResult = new PagedGridResult();
+        gridResult.setRows(adminUserList);
+        gridResult.setPage(page);
+        gridResult.setRecords(pageList.getPages());
+        gridResult.setTotal(pageList.getTotal());
+        return gridResult;
     }
 }

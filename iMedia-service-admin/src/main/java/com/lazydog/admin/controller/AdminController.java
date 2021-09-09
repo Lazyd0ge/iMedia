@@ -8,6 +8,7 @@ import com.lazydog.imedia.api.controller.user.BaseController;
 import com.lazydog.pojo.AdminUser;
 import com.lazydog.result.GraceJSONResult;
 import com.lazydog.result.ResponseStatusEnum;
+import com.lazydog.utils.PagedGridResult;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -84,7 +85,21 @@ public class AdminController extends BaseController {
         return GraceJSONResult.ok();
     }
 
+    @PostMapping("/getAdminList")
+    public GraceJSONResult getAdminList(
+            @RequestParam Integer page,
+            @RequestParam Integer pageSize){
+        if (page == null) {
+            page = COMMON_START_PAGE;
+        }
 
+        if (pageSize == null) {
+            pageSize = COMMON_PAGE_SIZE;
+        }
+
+        PagedGridResult result = adminUserService.queryAdminList(page, pageSize);
+        return GraceJSONResult.ok(result);
+    }
 
 
     private void checkAdminExist(String username) {
