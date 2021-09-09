@@ -12,6 +12,7 @@
         <module>iMedia-model</module>
         <module>iMedia-service-api</module>
         <module>iMedia-service-user</module>
+        <module>iMedia-service-admin</module>
     </modules>
 
     <packaging>pom</packaging>

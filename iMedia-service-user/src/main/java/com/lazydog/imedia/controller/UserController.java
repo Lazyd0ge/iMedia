@@ -1,7 +1,7 @@
-package com.lazydog.imeadia.controller;
+package com.lazydog.imedia.controller;
 
 import com.lazydog.bo.UpdateUserInfoBO;
-import com.lazydog.imeadia.service.UserService;
+import com.lazydog.imedia.service.UserService;
 import com.lazydog.imedia.api.controller.user.BaseController;
 import com.lazydog.pojo.AppUser;
 import com.lazydog.result.GraceJSONResult;

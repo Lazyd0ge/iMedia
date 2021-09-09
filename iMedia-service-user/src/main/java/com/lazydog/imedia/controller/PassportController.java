@@ -1,8 +1,8 @@
-package com.lazydog.imeadia.controller;
+package com.lazydog.imedia.controller;
 
 import com.lazydog.bo.RegistryLoginBo;
 import com.lazydog.enums.UserStatus;
-import com.lazydog.imeadia.service.UserService;
+import com.lazydog.imedia.service.UserService;
 import com.lazydog.imedia.api.controller.user.BaseController;
 import com.lazydog.imedia.api.controller.user.PassportControllerApi;
 import com.lazydog.pojo.AppUser;
@@ -13,7 +13,6 @@ import com.lazydog.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
